@@ -22,7 +22,7 @@
 - [x] 记录请求模型、输入/输出 Token、延迟、HTTP 状态码。
 - [ ] 用 Java 原生 HTTP Client 完成相同调用。
 - [ ] 用 Python SDK 或 HTTP Client 完成相同调用。
-- [ ] 分别实现同步和流式输出。
+- [x] 分别实现同步和流式输出。
 - [ ] 对超时、401、429、5xx 编写最小异常处理。
 
 ### 第 1 周产物
@@ -36,8 +36,8 @@
 - [ ] 使用 Spring Boot 4.1.x 创建项目。
 - [ ] 使用 Spring AI 2.0.x BOM 管理依赖。
 - [ ] 接入第一个 ChatModel。
-- [ ] 实现普通对话接口和 SSE 流式接口。
-- [ ] 将模型响应映射为 Java Record，而不是手工解析字符串 JSON。
+- [x] 实现普通对话接口和 SSE 流式接口。
+- [x] 将模型响应映射为 Java Record，而不是手工解析字符串 JSON。
 - [x] 获取并记录模型 Usage 元数据。
 - [ ] 创建最小 FastAPI 服务，完成请求参数校验和健康检查。
 - [ ] 编写 Java 服务调用 FastAPI 的示例。

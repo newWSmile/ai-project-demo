@@ -36,3 +36,22 @@
 - Cost estimate: Pending pricing calculation
 - Observation: Usage metadata was returned correctly; prompt tokens plus completion tokens equals total tokens (40 + 87 = 127).
 - Conclusion: Java 21 -> Spring AI 2 -> DashScope OpenAI-compatible API -> qwen-plus call succeeded.
+
+## Experiment 2026-07-23-02
+
+- Hypothesis: The Java service can expose DashScope output as an UTF-8 SSE stream.
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: v1
+- Parameters: Project defaults
+- Input: 请分五点介绍Java开发者学习AI应用开发的优势
+- Output: Chinese content was returned incrementally as SSE `data:` chunks.
+- Prompt tokens: Not exposed by the current streaming endpoint
+- Completion tokens: Not exposed by the current streaming endpoint
+- Total tokens: Not exposed by the current streaming endpoint
+- First-token latency: About 1438 ms (client-observed response start)
+- Total latency: Not measured
+- HTTP status: 200
+- Content-Type: text/event-stream;charset=UTF-8
+- Cost estimate: Pending pricing calculation
+- Observation: Postman and IntelliJ IDEA both displayed Chinese correctly after the response explicitly declared UTF-8.
+- Conclusion: The synchronous chat and SSE streaming paths are both operational.
