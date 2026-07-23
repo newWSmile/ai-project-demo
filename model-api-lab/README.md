@@ -26,17 +26,32 @@ mvn-jdk21.cmd -version
 
 执行结束后，系统默认的 `JAVA_HOME` 和 PATH 不会被永久修改。
 
-## 2. 配置模型
+脚本还会使用项目内的 `.mvn/settings.xml` 访问 Maven Central，不读取你其他项目使用的内网 Nexus 镜像配置；该设置只对本脚本启动的构建生效。
 
-不要提交真实 API Key。根据实际模型服务，在当前终端设置：
+## 2. 配置 DashScope 千问模型
+
+本实验默认使用阿里云百炼的 OpenAI-compatible 接口，不需要申请 OpenAI API Key。不要提交真实 API Key，在当前终端设置：
 
 ```powershell
-$env:MODEL_API_KEY = "your-api-key"
-$env:MODEL_BASE_URL = "https://api.openai.com"
-$env:MODEL_NAME = "gpt-5-mini"
+$env:DASHSCOPE_API_KEY = "your-dashscope-api-key"
+$env:MODEL_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+$env:MODEL_NAME = "qwen-plus"
 ```
 
-`MODEL_BASE_URL` 和 `MODEL_NAME` 可以替换成所使用的 OpenAI-compatible 服务。不同供应商的兼容程度可能不同，需要实际验证。
+注意两种 URL 的区别：
+
+- SDK/Spring AI 的 Base URL：`https://dashscope.aliyuncs.com/compatible-mode/v1`
+- curl/HTTP 的完整地址：`https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions`
+
+不要把完整的 `/chat/completions` 地址填入 `MODEL_BASE_URL`，否则 SDK 可能重复追加路径。API Key、Base URL 和地域必须匹配。
+
+### 先不启动 Spring，直接验证 API
+
+```powershell
+.\scripts\dashscope-chat.ps1 -Message "用一句话解释什么是 Token。"
+```
+
+脚本会输出回答、输入/输出 Token 和总耗时，不会打印 API Key。
 
 ## 3. 构建和测试
 
@@ -86,7 +101,7 @@ python -m pip install .
 直接调用模型：
 
 ```powershell
-$env:MODEL_CHAT_COMPLETIONS_URL = "https://api.openai.com/v1/chat/completions"
+$env:MODEL_CHAT_COMPLETIONS_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
 python direct_model_call.py
 ```
 
@@ -103,4 +118,3 @@ python call_java_service.py
 3. 记录 Token、延迟和错误码。
 4. 学会通过环境变量保护 API Key。
 5. 暂不加入数据库、RAG、Agent 或前端。
-

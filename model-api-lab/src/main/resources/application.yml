@@ -6,10 +6,10 @@ spring:
       chat: openai
       embedding: none
     openai:
-      api-key: ${MODEL_API_KEY:change-me}
-      base-url: ${MODEL_BASE_URL:https://api.openai.com}
+      api-key: ${DASHSCOPE_API_KEY:${MODEL_API_KEY:change-me}}
+      base-url: ${MODEL_BASE_URL:https://dashscope.aliyuncs.com/compatible-mode/v1}
       chat:
-        model: ${MODEL_NAME:gpt-5-mini}
+        model: ${MODEL_NAME:qwen-plus}
         temperature: ${MODEL_TEMPERATURE:0.2}
     retry:
       max-attempts: 3
@@ -30,4 +30,3 @@ management:
   endpoint:
     health:
       show-details: when-authorized
-

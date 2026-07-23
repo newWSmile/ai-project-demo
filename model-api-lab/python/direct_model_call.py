@@ -12,9 +12,14 @@ def required_environment(name: str) -> str:
 
 
 def main() -> None:
-    url = required_environment("MODEL_CHAT_COMPLETIONS_URL")
-    api_key = required_environment("MODEL_API_KEY")
-    model = required_environment("MODEL_NAME")
+    url = os.getenv(
+        "MODEL_CHAT_COMPLETIONS_URL",
+        "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+    )
+    api_key = os.getenv("DASHSCOPE_API_KEY") or os.getenv("MODEL_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing DASHSCOPE_API_KEY (or MODEL_API_KEY)")
+    model = os.getenv("MODEL_NAME", "qwen-plus")
 
     started_at = time.perf_counter()
     response = httpx.post(
@@ -37,4 +42,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

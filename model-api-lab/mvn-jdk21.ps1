@@ -11,7 +11,9 @@ $mavenExitCode = 1
 try {
     $env:JAVA_HOME = $jdkHome
     $env:Path = "$jdkHome\bin;$previousPath"
-    & mvn @args
+    $settingsFile = Join-Path $PSScriptRoot '.mvn\settings.xml'
+    $pomFile = Join-Path $PSScriptRoot 'pom.xml'
+    & mvn -s $settingsFile -f $pomFile @args
     $mavenExitCode = $LASTEXITCODE
 }
 finally {
@@ -20,4 +22,3 @@ finally {
 }
 
 exit $mavenExitCode
-
