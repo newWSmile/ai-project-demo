@@ -38,3 +38,14 @@ Accept: application/json
 {
   "message": "请用三句话解释 Java 原生 HttpClient 调用大模型需要处理哪些事情"
 }
+
+
+### 测试 Java 21 原生 HttpClient 对话跟ai的同样输入
+# 用途：绕过 Spring AI，验证 JDK HttpClient 能直接组装 OpenAI-compatible 请求并调用 DashScope，同时返回 Usage 与总耗时。
+POST http://localhost:8080/api/chat/raw
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+
+{
+  "message": "请用三句话解释什么是大语言模型"
+}

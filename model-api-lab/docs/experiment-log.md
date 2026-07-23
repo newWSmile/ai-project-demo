@@ -74,3 +74,20 @@
 - Cost estimate: Pending pricing calculation
 - Observation: JDK HttpClient completed request serialization, Bearer authentication, UTF-8 transport, status validation, and Jackson response mapping successfully.
 - Conclusion: The direct Java 21 HttpClient -> DashScope call path is operational without Spring AI.
+
+## Experiment 2026-07-23-04
+
+- Hypothesis: 在相同输入条件下，Spring AI 与原生 HttpClient 的模型输入和端到端耗时应处于同一量级。
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: controlled-comparison-v1
+- Parameters: temperature 0.2, non-streaming, each implementation repeated 3 times
+- Input: 请用三句话解释什么是大语言模型
+- Spring AI prompt tokens: 48, 48, 48
+- Spring AI completion tokens: 80, 79, 80
+- Spring AI total latency: 2666ms, 1800ms, 1678ms
+- Raw HttpClient prompt tokens: 48, 48, 48
+- Raw HttpClient completion tokens: 79, 86, 79
+- Raw HttpClient total latency: 1952ms, 2303ms, 1978ms
+- HTTP status: All requests returned 200
+- Observation: 两种实现的输入 Token 完全一致；平均耗时分别为 2048ms 和 2077.67ms，仅相差约 29.67ms。
+- Conclusion: 当前小样本实验没有显示 Spring AI 存在明显性能损失；主耗时来自模型生成和网络，框架选择应优先考虑工程能力与可维护性。
