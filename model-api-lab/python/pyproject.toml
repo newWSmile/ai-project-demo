@@ -1,0 +1,9 @@
+[project]
+name = "model-api-lab-python"
+version = "0.1.0"
+description = "Python experiments for the model API lab"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "httpx>=0.28,<1",
+]
+
