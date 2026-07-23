@@ -14,12 +14,12 @@
 - [x] 安装 Python 3.13.14，并记录 `python --version`（已验证：Python 3.13.14）。
 - [ ] 选择并掌握一种 Python 环境/依赖工具：`uv` 优先，也可使用 `venv + pip`。
 - [ ] 安装 Docker 与 Docker Compose。
-- [ ] 创建 `.env.example`，禁止将真实 API Key 提交到仓库。
+- [x] 创建 `.env.example`，禁止将真实 API Key 提交到仓库。
 
 ### 第一次模型调用
 
-- [ ] 使用 curl 调用一个 OpenAI-compatible Chat API。
-- [ ] 记录请求模型、输入/输出 Token、延迟、HTTP 状态码。
+- [x] 使用 Postman/curl 调用一个 OpenAI-compatible Chat API。
+- [x] 记录请求模型、输入/输出 Token、延迟、HTTP 状态码。
 - [ ] 用 Java 原生 HTTP Client 完成相同调用。
 - [ ] 用 Python SDK 或 HTTP Client 完成相同调用。
 - [ ] 分别实现同步和流式输出。
@@ -38,7 +38,7 @@
 - [ ] 接入第一个 ChatModel。
 - [ ] 实现普通对话接口和 SSE 流式接口。
 - [ ] 将模型响应映射为 Java Record，而不是手工解析字符串 JSON。
-- [ ] 获取并记录模型 Usage 元数据。
+- [x] 获取并记录模型 Usage 元数据。
 - [ ] 创建最小 FastAPI 服务，完成请求参数校验和健康检查。
 - [ ] 编写 Java 服务调用 FastAPI 的示例。
 - [ ] 使用 Docker Compose 启动 Java 服务和 Python 服务。

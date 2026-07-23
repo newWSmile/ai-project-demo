@@ -1,0 +1,9 @@
+### 三句话解释什么是大语言模型
+POST http://localhost:8080/api/chat
+Content-Type: application/json
+
+{
+  "message": "请用三句话解释什么是大语言模型"
+}
+
+###
