@@ -55,3 +55,22 @@
 - Cost estimate: Pending pricing calculation
 - Observation: Postman and IntelliJ IDEA both displayed Chinese correctly after the response explicitly declared UTF-8.
 - Conclusion: The synchronous chat and SSE streaming paths are both operational.
+
+## Experiment 2026-07-23-03
+
+- Hypothesis: Java 21 JDK HttpClient can call the DashScope OpenAI-compatible API without Spring AI.
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: raw-http-v1
+- Parameters: temperature 0.2, non-streaming
+- Input: 请用三句话解释 Java 原生 HttpClient 调用大模型需要处理哪些事情
+- Output: Returned three points covering HTTP request construction, authentication, response parsing, and error handling.
+- Prompt tokens: 60
+- Completion tokens: 176
+- Total tokens: 236
+- First-token latency: Not measured (non-streaming request)
+- Total latency: 4430 ms
+- HTTP status: 200
+- Content-Type: application/json
+- Cost estimate: Pending pricing calculation
+- Observation: JDK HttpClient completed request serialization, Bearer authentication, UTF-8 transport, status validation, and Jackson response mapping successfully.
+- Conclusion: The direct Java 21 HttpClient -> DashScope call path is operational without Spring AI.

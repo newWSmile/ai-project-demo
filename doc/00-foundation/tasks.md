@@ -20,7 +20,7 @@
 
 - [x] 使用 Postman/curl 调用一个 OpenAI-compatible Chat API。
 - [x] 记录请求模型、输入/输出 Token、延迟、HTTP 状态码。
-- [ ] 用 Java 原生 HTTP Client 完成相同调用。
+- [x] 用 Java 原生 HTTP Client 完成相同调用。
 - [ ] 用 Python SDK 或 HTTP Client 完成相同调用。
 - [x] 分别实现同步和流式输出。
 - [ ] 对超时、401、429、5xx 编写最小异常处理。

@@ -17,7 +17,6 @@ class ChatRequestTest {
 
     @Test
     void acceptsNormalMessage() {
-        assertThat(validator.validate(new ChatRequest("Explain what a token is."))).isEmpty();
+        assertThat(validator.validate(new ChatRequest("请解释什么是 Token。"))).isEmpty();
     }
 }
-

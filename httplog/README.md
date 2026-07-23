@@ -12,4 +12,6 @@ httplog/<项目名>.http
 2. 在请求前使用 `# 用途：...` 说明验证目标和预期观察内容。
 3. JSON 请求明确声明 `Content-Type: application/json; charset=UTF-8`。
 4. 流式请求声明 `Accept: text/event-stream`。
-5. 禁止在 `.http` 文件中写入 API Key、密码、Token 等敏感信息。
+5. 常规成功调用不添加断言；只有异常排查、边界验证或问题回归时才添加针对性断言。
+6. 禁止为每个请求机械复制状态码、Content-Type、非空字段等通用断言。
+7. 禁止在 `.http` 文件中写入 API Key、密码、Token 等敏感信息。

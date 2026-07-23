@@ -86,6 +86,30 @@ curl.exe -N -X POST http://localhost:8080/api/chat/stream `
   -d '{"message":"用三点解释 Transformer。"}'
 ```
 
+Java 21 原生 `HttpClient` 对话（不经过 Spring AI）：
+
+```powershell
+$body = @{ message = "解释原生 HttpClient 调用模型需要处理哪些事情。" } | ConvertTo-Json
+Invoke-RestMethod -Method Post -Uri http://localhost:8080/api/chat/raw -ContentType "application/json" -Body $body
+```
+
+原生调用链由项目自行处理以下内容：
+
+1. 拼接 `/chat/completions` 地址。
+2. 构造 `Authorization: Bearer ...` 和 JSON 请求。
+3. 设置连接超时、请求超时和 UTF-8。
+4. 检查上游 HTTP 状态码。
+5. 使用 Jackson 3 将 OpenAI-compatible JSON 映射为 Java Record。
+6. 保留线程中断状态并将上游异常转换为 HTTP 502。
+
+三个接口的用途不同：
+
+| 接口 | 实现 | 用途 |
+| --- | --- | --- |
+| `POST /api/chat` | Spring AI `ChatClient` | 学习框架封装和 Usage 获取 |
+| `POST /api/chat/stream` | Spring AI 流式 API | 学习 SSE 分块输出 |
+| `POST /api/chat/raw` | JDK 21 `HttpClient` | 理解底层 HTTP 协议与手动映射 |
+
 ## 5. Python 实验
 
 在 `python` 目录创建独立虚拟环境：
