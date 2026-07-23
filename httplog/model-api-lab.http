@@ -17,3 +17,13 @@ Accept: text/event-stream
 {
   "message": "请分五点介绍Java开发者学习AI应用开发的优势"
 }
+
+> {%
+client.test("SSE 响应声明 UTF-8", function () {
+    const contentType = response.headers.valuesOf("Content-Type")[0] || "";
+    client.assert(
+        contentType.toLowerCase().includes("charset=utf-8"),
+        "预期 Content-Type 包含 charset=UTF-8，实际为：" + contentType
+    );
+});
+%}

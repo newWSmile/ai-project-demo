@@ -1,5 +1,6 @@
 package com.example.ai.modelapilab.chat;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.metadata.Usage;
@@ -10,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.nio.charset.StandardCharsets;
+
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
+
+    private static final String UTF_8_EVENT_STREAM = "text/event-stream;charset=UTF-8";
 
     private final ChatClient chatClient;
 
@@ -44,8 +49,14 @@ public class ChatController {
         );
     }
 
-    @PostMapping(value = "/stream", produces = "text/event-stream;charset=UTF-8")
-    public Flux<String> stream(@Valid @RequestBody ChatRequest request) {
+    @PostMapping(value = "/stream", produces = UTF_8_EVENT_STREAM)
+    public Flux<String> stream(
+            @Valid @RequestBody ChatRequest request,
+            HttpServletResponse response
+    ) {
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.setContentType(UTF_8_EVENT_STREAM);
+
         return chatClient.prompt()
                 .user(request.message())
                 .stream()
