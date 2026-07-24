@@ -9,6 +9,8 @@ Spring Boot 4.1 + Spring AI 2.0 的第一个学习实验室。系统可以继续
 - Spring Boot 4.1.0
 - Spring AI 2.0.0
 - Python 3.13.14
+- FastAPI 0.139.2
+- Uvicorn 0.51.x
 
 ## 1. 验证项目使用 Java 21
 
@@ -110,29 +112,33 @@ Invoke-RestMethod -Method Post -Uri http://localhost:8080/api/chat/raw -ContentT
 | `POST /api/chat/stream` | Spring AI 流式 API | 学习 SSE 分块输出 |
 | `POST /api/chat/raw` | JDK 21 `HttpClient` | 理解底层 HTTP 协议与手动映射 |
 
-## 5. Python 实验
+## 5. Python 辅助服务与实验
 
-在 `python` 目录创建独立虚拟环境：
+Python 部分使用 `src-layout`，按 API、Schema、Service、Client、Core 和 Domain 分层。详细目录职责参见 [`python/README.md`](./python/README.md)。
+
+创建独立虚拟环境并安装运行、测试依赖：
 
 ```powershell
 cd python
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install .
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install ".[dev]"
 ```
 
-直接调用模型：
+启动 FastAPI（端口 `8000`）：
 
 ```powershell
+$env:DASHSCOPE_API_KEY = "你的真实Key"
 $env:MODEL_CHAT_COMPLETIONS_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
-python direct_model_call.py
+.\.venv\Scripts\python.exe -m uvicorn model_api_lab.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-调用本地 Java 服务：
+测试与命令行实验：
 
 ```powershell
-python call_java_service.py
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe scripts\direct_model_call.py
+.\.venv\Scripts\python.exe scripts\call_java_service.py
 ```
 
 ## 当前学习重点

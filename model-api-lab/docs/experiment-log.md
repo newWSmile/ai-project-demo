@@ -123,3 +123,20 @@
 - HTTP status: 200
 - Observation: Removing one trailing Chinese full stop reduced prompt tokens from 49 to 48, exactly matching both Java implementations.
 - Conclusion: Java and Python delivered Token-equivalent input when model parameters and prompt text were controlled byte for byte.
+
+## Experiment 2026-07-24-03
+
+- Hypothesis: 使用 `src-layout` 分层的 FastAPI 服务可以正确打包、启动，并在不调用真实模型的情况下验证参数校验和异常映射。
+- Provider and model: 本实验未调用模型供应商
+- Prompt version: 不适用
+- Parameters: Python 3.13.14, FastAPI 0.139.2, Uvicorn 0.51.0
+- Input: `GET /health`；自动化测试覆盖正常聊天、空消息和模拟上游 429
+- Output: 健康检查返回 `{"status":"UP","service":"model-api-lab-python"}`；pytest 4/4 通过
+- Prompt tokens: 0
+- Completion tokens: 0
+- First-token latency: 不适用
+- Total latency: 自动化测试 0.29 秒
+- HTTP status: 健康检查 200；模拟上游异常映射为 502
+- Cost estimate: 0（测试使用假模型客户端）
+- Observation: `api / schema / service / client / core / domain` 分层可以正确构建为 wheel；真实 Uvicorn 进程可启动并正常执行生命周期关闭。
+- Conclusion: Python 最小辅助服务已具备可运行的项目结构、请求校验、健康检查和安全的上游异常映射，可以进入 Java 调用 FastAPI 的下一项实验。

@@ -39,6 +39,21 @@ Accept: application/json
   "message": "请用三句话解释 Java 原生 HttpClient 调用大模型需要处理哪些事情"
 }
 
+### Python FastAPI 健康检查
+# 用途：验证 Python 辅助服务进程已经启动；该接口不会调用付费模型。
+GET http://localhost:8000/health
+Accept: application/json
+
+### Python FastAPI 普通对话
+# 用途：验证 Pydantic 请求校验、Python 模型适配器和统一 ChatResponse 映射。
+POST http://localhost:8000/api/chat
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+
+{
+  "message": "请用三句话解释 FastAPI 在 AI 应用中的作用"
+}
+
 
 ### 测试 Java 21 原生 HttpClient 对话跟ai的同样输入
 # 用途：绕过 Spring AI，验证 JDK HttpClient 能直接组装 OpenAI-compatible 请求并调用 DashScope，同时返回 Usage 与总耗时。

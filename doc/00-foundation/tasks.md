@@ -39,7 +39,7 @@
 - [x] 实现普通对话接口和 SSE 流式接口。
 - [x] 将模型响应映射为 Java Record，而不是手工解析字符串 JSON。
 - [x] 获取并记录模型 Usage 元数据。
-- [ ] 创建最小 FastAPI 服务，完成请求参数校验和健康检查。
+- [x] 创建最小 FastAPI 服务，完成请求参数校验和健康检查（已验证：Uvicorn 启动、`/health` 200、4 个自动化测试通过）。
 - [ ] 编写 Java 服务调用 FastAPI 的示例。
 - [ ] 使用 Docker Compose 启动 Java 服务和 Python 服务。
 

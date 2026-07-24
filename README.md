@@ -51,7 +51,8 @@ ai-project-1/
 | 响应式流 | Reactor `Flux` | SSE 流式内容输出 |
 | 模型供应商 | 阿里云百炼 DashScope | OpenAI-compatible Chat API |
 | 默认模型 | `qwen-plus` | 当前模型实验基线 |
-| Python | Python 3.13.14 | 后续 AI 生态和辅助服务实验 |
+| Python | Python 3.13.14 | AI 生态和辅助服务实验 |
+| Python Web | FastAPI 0.139.2 + Uvicorn 0.51.x | 参数校验、健康检查和模型接口 |
 | 接口测试 | IntelliJ IDEA HTTP Client / Postman | 手工调用、问题复现和回归验证 |
 
 ## 四、环境要求

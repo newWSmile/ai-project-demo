@@ -4,13 +4,26 @@ version = "0.1.0"
 description = "模型 API 学习项目的 Python 实验"
 requires-python = ">=3.13,<3.14"
 dependencies = [
+    "fastapi>=0.139.2,<0.140",
     "httpx>=0.28,<1",
+    "uvicorn>=0.51,<0.52",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Starlette 1.x 的 TestClient 已迁移到 httpx2；显式安装可避免继续使用兼容层。
+    "httpx2>=2.7,<3",
+    "pytest>=8.4,<10",
 ]
 
 [build-system]
 requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# 当前目录有两个有意保留的顶层脚本，显式声明可避免 setuptools 拒绝 flat-layout 自动发现。
-py-modules = ["direct_model_call", "call_java_service"]
+[tool.setuptools.packages.find]
+# 使用 src-layout，防止测试意外导入尚未安装的工作目录文件。
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
