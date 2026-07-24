@@ -54,6 +54,16 @@ Accept: application/json
   "message": "请用三句话解释 FastAPI 在 AI 应用中的作用"
 }
 
+### 测试 Java 调用 Python FastAPI
+# 用途：验证 Java RestClient 调用 Python /api/chat，并将跨语言响应映射为统一 ChatResult。
+POST http://localhost:8080/api/chat/python
+Content-Type: application/json; charset=UTF-8
+Accept: application/json
+
+{
+  "message": "请用三句话解释 Java 与 Python 在 AI 应用中的分工"
+}
+
 
 ### 测试 Java 21 原生 HttpClient 对话跟ai的同样输入
 # 用途：绕过 Spring AI，验证 JDK HttpClient 能直接组装 OpenAI-compatible 请求并调用 DashScope，同时返回 Usage 与总耗时。

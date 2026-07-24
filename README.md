@@ -47,6 +47,7 @@ ai-project-1/
 | Web 框架 | Spring Boot 4.1.0 | REST API、配置、校验和 Actuator |
 | AI 框架 | Spring AI 2.0.0 | 模型调用、同步和流式输出 |
 | 原生模型调用 | Java 21 `java.net.http.HttpClient` | 理解 OpenAI-compatible 底层协议 |
+| 跨服务调用 | Spring `RestClient` | Java 同步调用 Python FastAPI |
 | JSON | Jackson 3 | 请求序列化和响应 Record 映射 |
 | 响应式流 | Reactor `Flux` | SSE 流式内容输出 |
 | 模型供应商 | 阿里云百炼 DashScope | OpenAI-compatible Chat API |
@@ -154,6 +155,7 @@ GET http://localhost:8080/actuator/health
 | `POST /api/chat` | Spring AI | 普通非流式模型调用，返回 Usage 和总耗时 |
 | `POST /api/chat/stream` | Spring AI + SSE | 流式返回模型生成内容 |
 | `POST /api/chat/raw` | Java 21 原生 HttpClient | 不经过 Spring AI，直接调用 DashScope |
+| `POST /api/chat/python` | Spring RestClient | Java 调用 Python FastAPI，再由 Python 调用 DashScope |
 
 推荐在 IntelliJ IDEA 中打开并执行：
 
@@ -172,6 +174,7 @@ httplog/model-api-lab.http
 - OpenAI-compatible 请求和响应 Record 映射。
 - Token Usage 和端到端耗时记录。
 - Spring AI 与原生 HttpClient 控制变量对比实验。
+- Java Spring RestClient 调用 Python FastAPI 的跨语言服务集成。
 - 项目宪法、学习任务、HTTP 调用记录和实验日志。
 
 ## 九、知识文档

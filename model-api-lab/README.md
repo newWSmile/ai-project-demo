@@ -61,6 +61,12 @@ $env:MODEL_NAME = "qwen-plus"
 .\mvn-jdk21.ps1 clean test
 ```
 
+如果本机同时运行 IDEA、Java 服务和 Python 服务，Surefire 子 JVM 可能因内存不足无法启动。可以先关闭不需要的进程，或仅在本地临时使用不分叉模式：
+
+```powershell
+.\mvn-jdk21.ps1 -DforkCount=0 test
+```
+
 ## 4. 启动 Java 服务
 
 ```powershell
@@ -111,6 +117,15 @@ Invoke-RestMethod -Method Post -Uri http://localhost:8080/api/chat/raw -ContentT
 | `POST /api/chat` | Spring AI `ChatClient` | 学习框架封装和 Usage 获取 |
 | `POST /api/chat/stream` | Spring AI 流式 API | 学习 SSE 分块输出 |
 | `POST /api/chat/raw` | JDK 21 `HttpClient` | 理解底层 HTTP 协议与手动映射 |
+| `POST /api/chat/python` | Spring `RestClient` | Java 调用 Python FastAPI 的跨语言集成 |
+
+Java 调用 Python 前，需要先启动端口 `8000` 的 FastAPI。默认连接配置如下，可通过环境变量覆盖：
+
+```text
+PYTHON_SERVICE_BASE_URL=http://localhost:8000
+PYTHON_SERVICE_CONNECT_TIMEOUT=5s
+PYTHON_SERVICE_READ_TIMEOUT=65s
+```
 
 ## 5. Python 辅助服务与实验
 

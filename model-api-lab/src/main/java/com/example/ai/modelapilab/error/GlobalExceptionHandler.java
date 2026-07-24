@@ -1,6 +1,7 @@
 package com.example.ai.modelapilab.error;
 
 import com.example.ai.modelapilab.raw.ModelProviderException;
+import com.example.ai.modelapilab.python.PythonServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +14,24 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /** 将 Python 辅助服务异常转换为 502，不向调用方透传其响应正文。 */
+    @ExceptionHandler(PythonServiceException.class)
+    ResponseEntity<ApiError> handlePythonService(PythonServiceException exception) {
+        Map<String, String> details = exception.upstreamStatus() == null
+                ? Map.of("type", exception.getClass().getSimpleName())
+                : Map.of(
+                        "type", exception.getClass().getSimpleName(),
+                        "upstreamStatus", exception.upstreamStatus().toString()
+                );
+
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_GATEWAY.value(),
+                "Python 辅助服务请求失败",
+                details
+        ));
+    }
 
     /** 将模型供应商或网络错误统一转换为 502，避免向调用方泄露上游响应正文。 */
     @ExceptionHandler(ModelProviderException.class)

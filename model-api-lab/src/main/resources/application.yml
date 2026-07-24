@@ -22,6 +22,12 @@ server:
   port: ${SERVER_PORT:8080}
   shutdown: graceful
 
+# Java 通过专用 RestClient 调用本地 Python FastAPI；模型生成较慢，因此读取超时长于连接超时。
+python-service:
+  base-url: ${PYTHON_SERVICE_BASE_URL:http://localhost:8000}
+  connect-timeout: ${PYTHON_SERVICE_CONNECT_TIMEOUT:5s}
+  read-timeout: ${PYTHON_SERVICE_READ_TIMEOUT:65s}
+
 management:
   endpoints:
     web:

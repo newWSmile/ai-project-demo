@@ -140,3 +140,39 @@
 - Cost estimate: 0（测试使用假模型客户端）
 - Observation: `api / schema / service / client / core / domain` 分层可以正确构建为 wheel；真实 Uvicorn 进程可启动并正常执行生命周期关闭。
 - Conclusion: Python 最小辅助服务已具备可运行的项目结构、请求校验、健康检查和安全的上游异常映射，可以进入 Java 调用 FastAPI 的下一项实验。
+
+## Experiment 2026-07-24-04
+
+- Hypothesis: 分层后的 FastAPI 服务可以通过统一 DashScope Client 完成真实模型调用，并返回与 Java 一致的 Token 字段。
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: fastapi-chat-v1
+- Parameters: temperature 0.2, non-streaming
+- Input: 请用三句话解释 FastAPI 在 AI 应用中的作用
+- Output: 返回三点说明，覆盖模型 REST 接口封装、OpenAPI 文档和生产级异步/校验能力。
+- Prompt tokens: 53
+- Completion tokens: 145
+- Total tokens: 198
+- First-token latency: Not measured (non-streaming request)
+- Total latency: 3576ms
+- HTTP status: 200
+- Cost estimate: Pending pricing calculation
+- Observation: `53 + 145 = 198`，FastAPI JSON 字段与 Java ChatResult 契约一致，中文 UTF-8 输出正常。
+- Conclusion: `FastAPI → ChatService → DashScopeClient → qwen-plus` 真实调用链验证成功，可以作为 Java 跨语言服务调用的稳定上游。
+
+## Experiment 2026-07-24-05
+
+- Hypothesis: Java Spring RestClient 可以调用本地 FastAPI，并将 Python JSON 无损映射为统一 ChatResult。
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: java-python-service-v1
+- Parameters: temperature 0.2, non-streaming, Java read timeout 65s
+- Input: 请用三句话解释 Java 与 Python 在 AI 应用中的分工
+- Output: 返回三点说明，覆盖 Java 企业服务、Python 模型研发以及 REST/gRPC/ONNX 协作方式。
+- Prompt tokens: 55
+- Completion tokens: 144
+- Total tokens: 199
+- First-token latency: Not measured (non-streaming request)
+- Total latency: 2914ms（Python 上游模型调用耗时，不包含 Java 转发和客户端链路耗时）
+- HTTP status: 200
+- Cost estimate: Pending pricing calculation
+- Observation: `55 + 144 = 199`；Java 成功映射 content、Usage 和 durationMs，中文 UTF-8 正常，跨服务契约一致。
+- Conclusion: `HTTP Client → Java RestClient → FastAPI → DashScope` 跨语言调用链真实验证成功；后续做性能观测时需要分别记录 Java 端到端耗时和 Python 上游耗时。
