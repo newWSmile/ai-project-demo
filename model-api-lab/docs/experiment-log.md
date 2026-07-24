@@ -91,3 +91,35 @@
 - HTTP status: All requests returned 200
 - Observation: 两种实现的输入 Token 完全一致；平均耗时分别为 2048ms 和 2077.67ms，仅相差约 29.67ms。
 - Conclusion: 当前小样本实验没有显示 Spring AI 存在明显性能损失；主耗时来自模型生成和网络，框架选择应优先考虑工程能力与可维护性。
+
+## Experiment 2026-07-24-01
+
+- Hypothesis: Python 3.13 + httpx can call the same DashScope OpenAI-compatible API used by Java.
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: python-http-v1
+- Parameters: temperature 0.2, non-streaming
+- Input: 请用三句话解释什么是大语言模型。
+- Prompt tokens: 49
+- Completion tokens: 84
+- Total tokens: 133
+- First-token latency: Not measured (non-streaming request)
+- Total latency: 2338ms
+- HTTP status: 200
+- Observation: Python virtual environment, setuptools packaging, httpx request, UTF-8 Chinese output, and Usage parsing all worked correctly. The Python prompt had one trailing Chinese full stop that was absent from the Java comparison prompt.
+- Conclusion: Python can complete the direct model call; a second run with byte-for-byte identical prompt text is required for a strict Java/Python comparison.
+
+## Experiment 2026-07-24-02
+
+- Hypothesis: Removing the trailing Chinese full stop will make the Python prompt Token count match the Java controlled experiment.
+- Provider and model: Alibaba Cloud DashScope / qwen-plus
+- Prompt version: java-python-controlled-v1
+- Parameters: temperature 0.2, non-streaming
+- Input: 请用三句话解释什么是大语言模型
+- Prompt tokens: 48
+- Completion tokens: 86
+- Total tokens: 134
+- First-token latency: Not measured (non-streaming request)
+- Total latency: 2787ms
+- HTTP status: 200
+- Observation: Removing one trailing Chinese full stop reduced prompt tokens from 49 to 48, exactly matching both Java implementations.
+- Conclusion: Java and Python delivered Token-equivalent input when model parameters and prompt text were controlled byte for byte.

@@ -178,6 +178,7 @@ httplog/model-api-lab.http
 - [模型供应商适配层与对话记忆](./doc/02-llm-application/model-adapter-and-conversation-memory.md)
 - [大模型 Token 预算管理](./doc/02-llm-application/token-budget.md)
 - [Spring AI 与 Java 原生 HttpClient 对比实验](./model-api-lab/docs/java-client-comparison.md)
+- [Java 与 Python 模型 API 调用对比](./model-api-lab/docs/java-python-comparison.md)
 
 ## 十、项目宪法摘要
 
